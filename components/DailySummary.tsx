@@ -2,9 +2,20 @@ import React from 'react';
 import { FileText, Moon, BookOpen, AlertCircle } from 'lucide-react';
 import { DailyData } from '../types';
 
+interface DailyDataV2 {
+  date?: string;
+  summary?: string | null;
+  highlights?: string[];
+  tasks?: { task: string; done: boolean }[];
+  sleep?: number | null;
+  study?: number | null;
+  isLoading?: boolean;
+}
+
 interface DailySummaryProps {
   date: string;
-  data: DailyData;
+  // accept both old and new shapes
+  data: DailyData | DailyDataV2;
 }
 
 const DailySummary: React.FC<DailySummaryProps> = ({ date, data }) => {
@@ -14,7 +25,15 @@ const DailySummary: React.FC<DailySummaryProps> = ({ date, data }) => {
     day: 'numeric',
   });
 
-  // Simple Markdown renderer
+  // normalize fields so rest of component can use them consistently
+  const summaryText: string | null | undefined = (data as any).summary ?? null;
+  const highlights: string[] | undefined = (data as any).highlights;
+  const tasks: { task: string; done: boolean }[] | undefined = (data as any).tasks;
+  const sleepVal: number | null | undefined = (data as any).sleep;
+  const studyVal: number | null | undefined = (data as any).study;
+  const isLoading = !!(data as any).isLoading;
+
+  // Simple Markdown renderer (keeps original behavior)
   const renderContent = (text: string) => {
     return text.split('\n').map((line, i) => {
       // Headers
@@ -40,7 +59,7 @@ const DailySummary: React.FC<DailySummaryProps> = ({ date, data }) => {
     });
   };
 
-  if (data.isLoading) {
+  if (isLoading) {
       return (
           <div className="glass-card rounded-2xl p-6 h-full flex flex-col items-center justify-center animate-pulse">
               <div className="h-4 w-32 bg-white/10 rounded mb-4"></div>
@@ -63,15 +82,49 @@ const DailySummary: React.FC<DailySummaryProps> = ({ date, data }) => {
 
       {/* Main Content Area */}
       <div className="flex-1 overflow-y-auto pr-2 mb-6 custom-scrollbar">
-        {data.summary ? (
+        {/* Primary summary string (if present) */}
+        {summaryText ? (
           <div className="text-sm md:text-base">
-            {renderContent(data.summary)}
+            {renderContent(summaryText)}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center h-40 text-gray-500">
-            <AlertCircle size={32} className="mb-2 opacity-50" />
-            <p className="text-sm">No entry recorded for this day.</p>
-          </div>
+          // If summary absent but highlights/tasks present, show them instead.
+          ( (highlights && highlights.length > 0) || (tasks && tasks.length > 0) ) ? (
+            <div className="text-sm md:text-base space-y-3">
+              {highlights && highlights.length > 0 && (
+                <div>
+                  <h3 className="text-lg font-bold text-white mt-1 mb-2">Highlights</h3>
+                  <div className="ml-1">
+                    {highlights.map((h, idx) => (
+                      <div key={idx} className="flex gap-2 mb-1 text-gray-300">
+                        <span className="text-emerald-500">•</span>
+                        <span>{h}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {tasks && tasks.length > 0 && (
+                <div>
+                  <h3 className="text-lg font-bold text-white mt-2 mb-2">Tasks</h3>
+                  <div className="ml-1">
+                    {tasks.map((t, idx) => (
+                      <div key={idx} className="flex items-center gap-3 mb-1 text-gray-300">
+                        <span className="text-emerald-500">{t.done ? '✅' : '⬜'}</span>
+                        <span>{t.task}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center h-40 text-gray-500">
+              <AlertCircle size={32} className="mb-2 opacity-50" />
+              <p className="text-sm">No entry recorded for this day.</p>
+            </div>
+          )
         )}
       </div>
 
@@ -84,7 +137,7 @@ const DailySummary: React.FC<DailySummaryProps> = ({ date, data }) => {
             <div>
                 <p className="text-xs text-gray-500 uppercase tracking-wider">Sleep</p>
                 <p className="text-lg font-bold text-white">
-                    {data.sleep !== null ? `${data.sleep}h` : '--'}
+                    {sleepVal !== null && sleepVal !== undefined ? `${sleepVal}h` : '--'}
                 </p>
             </div>
         </div>
@@ -96,7 +149,7 @@ const DailySummary: React.FC<DailySummaryProps> = ({ date, data }) => {
             <div>
                 <p className="text-xs text-gray-500 uppercase tracking-wider">Study</p>
                 <p className="text-lg font-bold text-white">
-                    {data.study !== null ? `${data.study}h` : '--'}
+                    {studyVal !== null && studyVal !== undefined ? `${studyVal}h` : '--'}
                 </p>
             </div>
         </div>
