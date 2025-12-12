@@ -27,8 +27,10 @@ const TodaysDate = new Date().toISOString().split("T")[0];
 
   
   const [selectedDate, setSelectedDate] = useState<string>(TodaysDate);
-  const [loadedMonths, setLoadedMonths] = useState<Set<string>>(new Set());
+  // const [loadedMonths, setLoadedMonths] = useState<Set<string>>(new Set());
+  const [loadedMonths, setLoadedMonths] = useState<Set<string>>(TodaysDate);
 
+  
   // Function to ensure month data is loaded
   const ensureMonthData = async (dateStr: string) => {
     const { year, month } = getDateStructure(dateStr);
