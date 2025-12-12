@@ -1,75 +1,23 @@
+
+
 import React from 'react';
 import { FileText, Moon, BookOpen, AlertCircle } from 'lucide-react';
 import { DailyData } from '../types';
 
-/**
- * Entry type for the new array-shaped JSON
- */
-type Entry = {
-  date?: string;
-  summary?: string | null;
-  highlights?: string[];
-  tasks?: { task: string; done: boolean }[];
-  sleep?: number | null;
-  study?: number | null;
-  isLoading?: boolean;
-};
-
-/**
- * Accept either:
- * - legacy DailyData (object per-day)
- * - Entry (object per-day v2)
- * - Entry[] (array of days) <- this is your JSON format
- */
 interface DailySummaryProps {
   date: string;
-  data: DailyData | Entry | Entry[];
+  data: DailyData;
 }
 
 const DailySummary: React.FC<DailySummaryProps> = ({ date, data }) => {
-  // Helper: if data is an array, find the matching entry by date
-  const normalizeEntry = (): Entry | null => {
-    if (Array.isArray(data)) {
-      // Try exact match by ISO date string
-      const found = (data as Entry[]).find((e) => e?.date === date);
-      return found ?? null;
-    }
-
-    // If data has a date property, assume it's already an Entry
-    if ((data as Entry).date !== undefined || (data as Entry).highlights !== undefined || (data as Entry).tasks !== undefined) {
-      return data as Entry;
-    }
-
-    // Otherwise, assume legacy DailyData shape: map fields over to Entry
-    // legacy DailyData likely looks like { summary, sleep, study, isLoading }
-    return {
-      summary: (data as any).summary ?? null,
-      sleep: (data as any).sleep ?? null,
-      study: (data as any).study ?? null,
-      isLoading: (data as any).isLoading ?? false,
-    };
-  };
-
-  const entry = normalizeEntry();
-
-  // If nothing found for an array input, entry will be null.
-  // We'll treat that as "no entry" (not loading).
-  const isLoading = !!(entry && entry.isLoading);
-  const summaryText: string | null | undefined = entry?.summary ?? null;
-  const highlights: string[] | undefined = entry?.highlights;
-  const tasks: { task: string; done: boolean }[] | undefined = entry?.tasks;
-  const sleepVal: number | null | undefined = entry?.sleep;
-  const studyVal: number | null | undefined = entry?.study;
-
   const formattedDate = new Date(date).toLocaleDateString('en-US', {
     weekday: 'long',
     month: 'long',
     day: 'numeric',
   });
 
-  // Safe renderer when text might be undefined or null
+  // Simple Markdown renderer
   const renderContent = (text: string) => {
-    if (!text) return null;
     return text.split('\n').map((line, i) => {
       // Headers
       if (line.startsWith('### ')) return <h3 key={i} className="text-lg font-bold text-white mt-4 mb-2">{line.replace('### ', '')}</h3>;
@@ -94,7 +42,7 @@ const DailySummary: React.FC<DailySummaryProps> = ({ date, data }) => {
     });
   };
 
-  if (isLoading) {
+  if (data.isLoading) {
       return (
           <div className="glass-card rounded-2xl p-6 h-full flex flex-col items-center justify-center animate-pulse">
               <div className="h-4 w-32 bg-white/10 rounded mb-4"></div>
@@ -117,49 +65,15 @@ const DailySummary: React.FC<DailySummaryProps> = ({ date, data }) => {
 
       {/* Main Content Area */}
       <div className="flex-1 overflow-y-auto pr-2 mb-6 custom-scrollbar">
-        {/* Primary summary string (if present) */}
-        {summaryText ? (
+        {data.summary ? (
           <div className="text-sm md:text-base">
-            {renderContent(summaryText)}
+            {renderContent(data.summary)}
           </div>
         ) : (
-          // If summary absent but highlights/tasks present, show them instead.
-          ( (highlights && highlights.length > 0) || (tasks && tasks.length > 0) ) ? (
-            <div className="text-sm md:text-base space-y-3">
-              {highlights && highlights.length > 0 && (
-                <div>
-                  <h3 className="text-lg font-bold text-white mt-1 mb-2">Highlights</h3>
-                  <div className="ml-1">
-                    {highlights.map((h, idx) => (
-                      <div key={idx} className="flex gap-2 mb-1 text-gray-300">
-                        <span className="text-emerald-500">•</span>
-                        <span>{h}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {tasks && tasks.length > 0 && (
-                <div>
-                  <h3 className="text-lg font-bold text-white mt-2 mb-2">Tasks</h3>
-                  <div className="ml-1">
-                    {tasks.map((t, idx) => (
-                      <div key={idx} className="flex items-center gap-3 mb-1 text-gray-300">
-                        <span className="text-emerald-500">{t.done ? '✅' : '⬜'}</span>
-                        <span>{t.task}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center h-40 text-gray-500">
-              <AlertCircle size={32} className="mb-2 opacity-50" />
-              <p className="text-sm">No entry recorded for this day.</p>
-            </div>
-          )
+          <div className="flex flex-col items-center justify-center h-40 text-gray-500">
+            <AlertCircle size={32} className="mb-2 opacity-50" />
+            <p className="text-sm">No entry recorded for this day.</p>
+          </div>
         )}
       </div>
 
@@ -172,7 +86,7 @@ const DailySummary: React.FC<DailySummaryProps> = ({ date, data }) => {
             <div>
                 <p className="text-xs text-gray-500 uppercase tracking-wider">Sleep</p>
                 <p className="text-lg font-bold text-white">
-                    {sleepVal !== null && sleepVal !== undefined ? `${sleepVal}h` : '--'}
+                    {data.sleep !== null ? `${data.sleep}h` : '--'}
                 </p>
             </div>
         </div>
@@ -184,7 +98,7 @@ const DailySummary: React.FC<DailySummaryProps> = ({ date, data }) => {
             <div>
                 <p className="text-xs text-gray-500 uppercase tracking-wider">Study</p>
                 <p className="text-lg font-bold text-white">
-                    {studyVal !== null && studyVal !== undefined ? `${studyVal}h` : '--'}
+                    {data.study !== null ? `${data.study}h` : '--'}
                 </p>
             </div>
         </div>
