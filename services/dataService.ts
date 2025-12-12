@@ -39,5 +39,5 @@ const datePath = `${new Date().getFullYear().toString().slice(-2).replace(/(\d{2
 };
 
 export const fetchBucketList = async (): Promise<BucketItem[]> => {
-  return fetchJson<BucketItem[]>('/data/bucketList.json');
+  return fetchJson<BucketItem[]>('data/bucketList.json');
 };
