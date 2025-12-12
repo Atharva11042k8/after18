@@ -1,46 +1,7 @@
-[
-  {
-    "date": "2025-12-11",
-    "summary": "Woke up early, gym, finished physics revision. Read 2 chapters of chemistry.\n\n### Notes\nGood energy today.",
-    "highlights": [
-      "Gym session",
-      "Physics revision completed",
-      "Meditation - 20 min"
-    ],
-    "tasks": [
-      { "task": "Electrostatics practice", "done": true },
-      { "task": "Organic chemistry notes", "done": false }
-    ],
-    "sleep": 7,
-    "study": 4
-  },
 
-  {
-    "date": "2025-12-12",
-    "highlights": [
-      "Good focus in morning",
-      "Completed math worksheet"
-    ],
-    "tasks": [
-      { "task": "Electrostatics practice", "done": true },
-      { "task": "Organic chemistry notes", "done": false }
-    ],
-    "sleep": 6,
-    "study": 3
-  },
-
-  {
-    "date": "2025-12-09",
-    "summary": "A calm and productive day.\n\n- [x] Read for 30 minutes\n- [ ] Workout not done",
-    "sleep": null,
-    "study": null
-  },
-
-  {
-    "date": "2025-12-08",
-    "tasks": [
-      { "task": "Math PYQs", "done": true },
-      { "task": "Physics numerical", "done": true }
-    ]
-  }
-]
+{
+  "2025-01-01": "### Daily Focus\n- [x] Read 20 minutes\n- [ ] Study Chemistry 2 hrs\n- [x] Exercise 15 min\n\n### Reflections\nGood start to the year. Need to prioritize Chemistry tomorrow.",
+  "2025-01-02": "### Daily Focus\n- [x] Solve Math PYQs\n- [ ] Review Biology Notes",
+  "2025-01-03": "### Daily Focus\n- [ ] Write English Essay\n- [x] Physics Lab Report\n- [x] Meditation\n\n### Reflections\nFeeling calm after meditation. Lab report took longer than expected.",
+  "2025-01-04": "### Daily Focus\n- [ ] Complete Calculus Worksheet"
+}
