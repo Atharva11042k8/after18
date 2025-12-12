@@ -1,8 +1,9 @@
 [
-  { "id": 1, "task": "See the Northern Lights", "completed": false },
-  { "id": 2, "task": "Publish a research paper", "completed": true },
-  { "id": 3, "task": "Visit Japan during cherry blossom season", "completed": false },
-  { "id": 4, "task": "Learn to play the piano", "completed": false },
-  { "id": 5, "task": "Run a full marathon", "completed": true },
-  { "id": 6, "task": "Build a startup", "completed": false }
+  { "id": 1, "task": "Solo trip", "completed": false },
+  { "id": 2, "task": "watch a movie in a theater alone", "completed": false },
+  { "id": 3, "task": "start a business", "completed": false },
+  { "id": 4, "task": "start a YT channel", "completed": false },
+  { "id": 5, "task": "buy dream car,bike,cycle", "completed": false },
+  { "id": 6, "task": "buy/renovate house", "completed": false },
+  { "id": 7, "task": "", "marrie with your dream girl": false }
 ]
