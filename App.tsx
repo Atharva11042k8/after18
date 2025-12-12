@@ -18,7 +18,15 @@ const App: React.FC = () => {
     error: null,
   });
 
-  const [selectedDate, setSelectedDate] = useState<string>('2025-01-01');
+  
+
+
+const TodaysDate = new Date().toISOString().split("T")[0];
+
+  
+
+  
+  const [selectedDate, setSelectedDate] = useState<string>(TodaysDate);
   const [loadedMonths, setLoadedMonths] = useState<Set<string>>(new Set());
 
   // Function to ensure month data is loaded
