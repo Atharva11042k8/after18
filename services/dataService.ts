@@ -23,11 +23,16 @@ export const fetchMonthData = async (dateStr: string) => {
   
   // Structure: /data/twenty-five/january/{type}.json
   const basePath = `/data/${year}/${month}`;
+
+
+const datePath = `${new Date().getFullYear().toString().slice(-2).replace(/(\d{2})/, m => ["zero","one","two","three","four","five","six","seven","eight","nine"][m[0]] + "-" + ["zero","one","two","three","four","five","six","seven","eight","nine"][m[1]])}/${new Date().toLocaleString("en-US",{ month:"long" }).toLowerCase()}`;
+
+
   
   const [study, sleep, summary] = await Promise.all([
-    fetchJson<HoursData>(`${basePath}/study.json`),
-    fetchJson<HoursData>(`${basePath}/sleep.json`),
-    fetchJson<SummaryData>(`${basePath}/summary.json`),
+    fetchJson<HoursData>(`${datePath}/study.json`),
+    fetchJson<HoursData>(`${datePath}/sleep.json`),
+    fetchJson<SummaryData>(`${datePath}/summary.json`),
   ]);
 
   return { study, sleep, summary };
