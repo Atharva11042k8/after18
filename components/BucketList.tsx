@@ -28,7 +28,7 @@ const BucketList: React.FC<BucketListProps> = ({ items }) => {
   return (
     <div className="glass-card rounded-2xl p-6 relative overflow-hidden group">
       {/* Decorative background element */}
-      <div className="absolute top-0 right-0 p-32 bg-purple-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+      <div className="absolute top-0 right-0 p-32 bg-green-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
       <div className="flex justify-between items-start mb-6 relative z-10">
         <div>
