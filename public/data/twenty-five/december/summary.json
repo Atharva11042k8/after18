@@ -1,18 +1,46 @@
 [
   {
     "date": "2025-12-11",
-    "summary": "Woke up early, gym, finish physics revision. Read 2 chapters of chemistry.",
-    "highlights": ["Gym session", "Physics revision completed", "Meditation - 20 min"],
+    "summary": "Woke up early, gym, finished physics revision. Read 2 chapters of chemistry.\n\n### Notes\nGood energy today.",
+    "highlights": [
+      "Gym session",
+      "Physics revision completed",
+      "Meditation - 20 min"
+    ],
     "tasks": [
       { "task": "Electrostatics practice", "done": true },
       { "task": "Organic chemistry notes", "done": false }
-    ]
+    ],
+    "sleep": 7,
+    "study": 4
   },
+
   {
     "date": "2025-12-12",
+    "highlights": [
+      "Good focus in morning",
+      "Completed math worksheet"
+    ],
     "tasks": [
       { "task": "Electrostatics practice", "done": true },
       { "task": "Organic chemistry notes", "done": false }
+    ],
+    "sleep": 6,
+    "study": 3
+  },
+
+  {
+    "date": "2025-12-09",
+    "summary": "A calm and productive day.\n\n- [x] Read for 30 minutes\n- [ ] Workout not done",
+    "sleep": null,
+    "study": null
+  },
+
+  {
+    "date": "2025-12-08",
+    "tasks": [
+      { "task": "Math PYQs", "done": true },
+      { "task": "Physics numerical", "done": true }
     ]
   }
 ]
