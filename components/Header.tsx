@@ -8,7 +8,7 @@ const Header: React.FC = () => {
       <div className="w-full h-48 md:h-64 overflow-hidden rounded-b-2xl relative">
         <div className="absolute inset-0 bg-gradient-to-t from-[#0e0e0e] to-transparent z-10" />
         <img 
-          src="https://picsum.photos/1200/400?grayscale&blur=2" 
+          src="https://i.ibb.co/fz6zCSFM/pixel-header-1.jpg" 
           alt="Banner" 
           className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700 ease-out"
         />
@@ -18,7 +18,7 @@ const Header: React.FC = () => {
       {/* Header Content */}
       <div className="absolute bottom-4 left-4 md:bottom-8 md:left-8 z-20 flex items-end gap-4">
         <div className="hidden md:flex h-20 w-20 glass-card items-center justify-center rounded-xl shadow-2xl">
-          <span className="text-4xl">🌱</span>
+          <span className="text-4xl">🔥</span>
         </div>
         <div>
           <div className="flex items-center gap-2 text-emerald-400 mb-1 text-xs md:text-sm font-mono tracking-wider uppercase">
