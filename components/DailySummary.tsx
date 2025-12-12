@@ -2,7 +2,10 @@ import React from 'react';
 import { FileText, Moon, BookOpen, AlertCircle } from 'lucide-react';
 import { DailyData } from '../types';
 
-interface DailyDataV2 {
+/**
+ * Entry type for the new array-shaped JSON
+ */
+type Entry = {
   date?: string;
   summary?: string | null;
   highlights?: string[];
@@ -10,31 +13,63 @@ interface DailyDataV2 {
   sleep?: number | null;
   study?: number | null;
   isLoading?: boolean;
-}
+};
 
+/**
+ * Accept either:
+ * - legacy DailyData (object per-day)
+ * - Entry (object per-day v2)
+ * - Entry[] (array of days) <- this is your JSON format
+ */
 interface DailySummaryProps {
   date: string;
-  // accept both old and new shapes
-  data: DailyData | DailyDataV2;
+  data: DailyData | Entry | Entry[];
 }
 
 const DailySummary: React.FC<DailySummaryProps> = ({ date, data }) => {
+  // Helper: if data is an array, find the matching entry by date
+  const normalizeEntry = (): Entry | null => {
+    if (Array.isArray(data)) {
+      // Try exact match by ISO date string
+      const found = (data as Entry[]).find((e) => e?.date === date);
+      return found ?? null;
+    }
+
+    // If data has a date property, assume it's already an Entry
+    if ((data as Entry).date !== undefined || (data as Entry).highlights !== undefined || (data as Entry).tasks !== undefined) {
+      return data as Entry;
+    }
+
+    // Otherwise, assume legacy DailyData shape: map fields over to Entry
+    // legacy DailyData likely looks like { summary, sleep, study, isLoading }
+    return {
+      summary: (data as any).summary ?? null,
+      sleep: (data as any).sleep ?? null,
+      study: (data as any).study ?? null,
+      isLoading: (data as any).isLoading ?? false,
+    };
+  };
+
+  const entry = normalizeEntry();
+
+  // If nothing found for an array input, entry will be null.
+  // We'll treat that as "no entry" (not loading).
+  const isLoading = !!(entry && entry.isLoading);
+  const summaryText: string | null | undefined = entry?.summary ?? null;
+  const highlights: string[] | undefined = entry?.highlights;
+  const tasks: { task: string; done: boolean }[] | undefined = entry?.tasks;
+  const sleepVal: number | null | undefined = entry?.sleep;
+  const studyVal: number | null | undefined = entry?.study;
+
   const formattedDate = new Date(date).toLocaleDateString('en-US', {
     weekday: 'long',
     month: 'long',
     day: 'numeric',
   });
 
-  // normalize fields so rest of component can use them consistently
-  const summaryText: string | null | undefined = (data as any).summary ?? null;
-  const highlights: string[] | undefined = (data as any).highlights;
-  const tasks: { task: string; done: boolean }[] | undefined = (data as any).tasks;
-  const sleepVal: number | null | undefined = (data as any).sleep;
-  const studyVal: number | null | undefined = (data as any).study;
-  const isLoading = !!(data as any).isLoading;
-
-  // Simple Markdown renderer (keeps original behavior)
+  // Safe renderer when text might be undefined or null
   const renderContent = (text: string) => {
+    if (!text) return null;
     return text.split('\n').map((line, i) => {
       // Headers
       if (line.startsWith('### ')) return <h3 key={i} className="text-lg font-bold text-white mt-4 mb-2">{line.replace('### ', '')}</h3>;
