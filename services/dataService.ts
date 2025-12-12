@@ -30,14 +30,14 @@ const datePath = `${new Date().getFullYear().toString().slice(-2).replace(/(\d{2
 
   
   const [study, sleep, summary] = await Promise.all([
-    fetchJson<HoursData>(`data/${datePath}/study.json`),
-    fetchJson<HoursData>(`data/${datePath}/sleep.json`),
-    fetchJson<SummaryData>(`data/${datePath}/summary.json`),
+    fetchJson<HoursData>(`/data/${datePath}/study.json`),
+    fetchJson<HoursData>(`/data/${datePath}/sleep.json`),
+    fetchJson<SummaryData>(`/data/${datePath}/summary.json`),
   ]);
 
   return { study, sleep, summary };
 };
 
 export const fetchBucketList = async (): Promise<BucketItem[]> => {
-  return fetchJson<BucketItem[]>('./data/bucketList.json');
+  return fetchJson<BucketItem[]>('/data/bucketList.json');
 };
