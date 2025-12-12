@@ -33,7 +33,7 @@ const BucketList: React.FC<BucketListProps> = ({ items }) => {
       <div className="flex justify-between items-start mb-6 relative z-10">
         <div>
           <h3 className="text-xl font-medium text-white flex items-center gap-2">
-            <Target className="text-purple-400" size={20} />
+            <Target className="text-green-400" size={20} />
             Life Checklist
           </h3>
           <p className="text-sm text-gray-400 mt-1">Things to do before death</p>
@@ -52,13 +52,13 @@ const BucketList: React.FC<BucketListProps> = ({ items }) => {
             className={`
               p-3 rounded-xl border flex items-center gap-3 cursor-pointer transition-all duration-200
               ${item.completed 
-                ? 'bg-purple-500/10 border-purple-500/20 hover:bg-purple-500/15' 
+                ? 'bg-green-500/10 border-green-500/20 hover:bg-green-500/15' 
                 : 'bg-white/5 border-white/5 hover:bg-white/10 hover:border-white/10'}
             `}
           >
             <div className={`
               shrink-0 transition-colors duration-300
-              ${item.completed ? 'text-purple-400' : 'text-gray-500'}
+              ${item.completed ? 'text-green-400' : 'text-gray-500'}
             `}>
               {item.completed ? <CheckCircle2 size={20} /> : <Circle size={20} />}
             </div>
@@ -81,7 +81,7 @@ const BucketList: React.FC<BucketListProps> = ({ items }) => {
       {/* Progress Bar */}
       <div className="w-full bg-white/5 h-1 mt-6 rounded-full overflow-hidden">
           <div 
-            className="h-full bg-gradient-to-r from-purple-500 to-indigo-500 transition-all duration-1000 ease-out" 
+            className="h-full bg-gradient-to-r from-green-500 to-indigo-500 transition-all duration-1000 ease-out" 
             style={{ width: `${progress}%` }}
           />
       </div>
