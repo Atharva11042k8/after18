@@ -1,0 +1,9 @@
+[build]
+  command = "npm install && npm run build"
+  publish = ".next"    # Netlify serves the built Next.js folder
+  edge_functions = "netlify/edge-functions"
+
+# Environment variables
+[build.environment]
+  NODE_VERSION = "18"
+  GEMINI_API_KEY = ""   # You will set this in Netlify UI (recommended)
