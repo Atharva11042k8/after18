@@ -1,9 +1,11 @@
+# netlify.toml — for a Google AI Studio (client-side) Next.js app
+
 [build]
   command = "npm install && npm run build"
-  publish = ".next"    # Netlify serves the built Next.js folder
-  edge_functions = "netlify/edge-functions"
+  publish = ".next"
 
-# Environment variables
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
 [build.environment]
   NODE_VERSION = "18"
-  GEMINI_API_KEY = ""   # You will set this in Netlify UI (recommended)
