@@ -26,7 +26,7 @@ const TodaysDate = new Date().toISOString().split("T")[0];
   
 
   
-  const [selectedDate, setSelectedDate] = useState<string>(TodaysDate);
+  const [selectedDate, setSelectedDate] = useState<string>("2025-01-01");
   const [loadedMonths, setLoadedMonths] = useState<Set<string>>(new Set());
 
   
