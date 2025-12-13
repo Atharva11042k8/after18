@@ -4,7 +4,7 @@ import DailySummary from './components/DailySummary';
 import StatsChart from './components/StatsChart';
 import BucketList from './components/BucketList';
 
-import RuleBook from "./components/RuleBook";
+import RuleBook from "./components/Rulebook";
 
 import { fetchMonthData, fetchBucketList } from './services/dataService';
 import { AppState, DailyData } from './types';
