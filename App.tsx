@@ -3,6 +3,9 @@ import Header from './components/Header';
 import DailySummary from './components/DailySummary';
 import StatsChart from './components/StatsChart';
 import BucketList from './components/BucketList';
+
+import RuleBook from "./components/RuleBook";
+
 import { fetchMonthData, fetchBucketList } from './services/dataService';
 import { AppState, DailyData } from './types';
 import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
@@ -193,6 +196,11 @@ const TodaysDate = new Date().toISOString().split("T")[0];
               <BucketList items={data.bucketList} />
             </div>
 
+
+<div className="min-h-[200px]">
+              <RuleBook items={data.rulebook} />
+            </div>
+            
           </div>
         </div>
       </div>
