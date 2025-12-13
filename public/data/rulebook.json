@@ -1,0 +1,28 @@
+{
+  "health": {
+    "title": "Health",
+    "rules": [
+      "Sleep minimum 7 hours daily",
+      "No junk food more than once a week",
+      "Workout at least 4 days a week",
+      "Drink 3 liters of water"
+    ]
+  },
+  "study": {
+    "title": "Study",
+    "rules": [
+      "Minimum 6 hours deep study daily",
+      "No phone during study sessions",
+      "Revise before sleeping",
+      "Weekly mock test compulsory"
+    ]
+  },
+  "discipline": {
+    "title": "Discipline",
+    "rules": [
+      "Wake up before 6 AM",
+      "No procrastination",
+      "Follow daily plan strictly"
+    ]
+  }
+}
