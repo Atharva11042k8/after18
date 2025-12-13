@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import rulebook from "/public/data/rulebook.json";
+import rulebook from "./public/data/rulebook.json";
 
 interface RuleCategory {
   title: string;
