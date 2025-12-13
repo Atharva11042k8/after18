@@ -18,11 +18,18 @@ export interface BucketItem {
   completed: boolean;
 }
 
+export interface RuleCategory {
+  category: string;
+  icon: string;
+  rules: string[];
+}
+
 export interface AppState {
   study: HoursData;
   sleep: HoursData;
   summary: SummaryData;
   bucketList: BucketItem[];
+  rulebook: RuleCategory[];
   isLoading: boolean;
   error: string | null;
 }
