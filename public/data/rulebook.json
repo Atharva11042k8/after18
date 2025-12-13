@@ -1,28 +1,37 @@
-{
-  "health": {
-    "title": "Health",
+[
+  {
+    "category": "Health & Vitality",
+    "icon": "activity",
     "rules": [
-      "Sleep minimum 7 hours daily",
-      "No junk food more than once a week",
-      "Workout at least 4 days a week",
-      "Drink 3 liters of water"
+      "Sleep is the foundation. 7.5 hours minimum.",
+      "Hydrate before caffeinate.",
+      "Move the body daily. Stagnation leads to decline."
     ]
   },
-  "study": {
-    "title": "Study",
+  {
+    "category": "Deep Work & Studies",
+    "icon": "book-open",
     "rules": [
-      "Minimum 6 hours deep study daily",
-      "No phone during study sessions",
-      "Revise before sleeping",
-      "Weekly mock test compulsory"
+      "Focus is a muscle. Protect it from distraction.",
+      "Active recall over passive re-reading.",
+      "If you can't explain it simply, you don't understand it well enough."
     ]
   },
-  "discipline": {
-    "title": "Discipline",
+  {
+    "category": "Mindset & Stoicism",
+    "icon": "brain",
     "rules": [
-      "Wake up before 6 AM",
-      "No procrastination",
-      "Follow daily plan strictly"
+      "Focus on what you can control, ignore the rest.",
+      "Discipline equals freedom.",
+      "Comparison is the thief of joy."
+    ]
+  },
+  {
+    "category": "Financial",
+    "icon": "coins",
+    "rules": [
+      "Invest in yourself first.",
+      "Wait 48 hours before making any non-essential purchase over $50."
     ]
   }
-}
+]
