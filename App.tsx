@@ -3,10 +3,8 @@ import Header from './components/Header';
 import DailySummary from './components/DailySummary';
 import StatsChart from './components/StatsChart';
 import BucketList from './components/BucketList';
-
-import Rulebook from "./components/Rulebook";
-
-import { fetchMonthData, fetchBucketList } from './services/dataService';
+import Rulebook from './components/Rulebook';
+import { fetchMonthData, fetchBucketList, fetchRulebook } from './services/dataService';
 import { AppState, DailyData } from './types';
 import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import { getDateStructure } from './utils/datePath';
@@ -17,22 +15,14 @@ const App: React.FC = () => {
     sleep: {},
     summary: {},
     bucketList: [],
+    rulebook: [],
     isLoading: true,
     error: null,
   });
 
-  
-
-
-const TodaysDate = new Date().toISOString().split("T")[0];
-
-  
-
-  
-  const [selectedDate, setSelectedDate] = useState<string>(TodaysDate);
+  const [selectedDate, setSelectedDate] = useState<string>('2025-01-01');
   const [loadedMonths, setLoadedMonths] = useState<Set<string>>(new Set());
 
-  
   // Function to ensure month data is loaded
   const ensureMonthData = async (dateStr: string) => {
     const { year, month } = getDateStructure(dateStr);
@@ -60,12 +50,21 @@ const TodaysDate = new Date().toISOString().split("T")[0];
     }
   };
 
-  // Initial Load (Month Data + Bucket List)
+  // Initial Load (Month Data + Bucket List + Rulebook)
   useEffect(() => {
     const loadInitial = async () => {
         try {
-            const bucketData = await fetchBucketList();
-            setData(prev => ({ ...prev, bucketList: bucketData }));
+            const [bucketData, rulebookData] = await Promise.all([
+                fetchBucketList(),
+                fetchRulebook()
+            ]);
+            
+            setData(prev => ({ 
+                ...prev, 
+                bucketList: bucketData,
+                rulebook: rulebookData 
+            }));
+            
             await ensureMonthData(selectedDate);
         } catch (err) {
             console.error("Initial load error", err);
@@ -99,7 +98,7 @@ const TodaysDate = new Date().toISOString().split("T")[0];
     };
   }, [selectedDate, data, loadedMonths]);
 
-  if (data.error && data.bucketList.length === 0) { // Only show full error if bucket list also failed or critical
+  if (data.error && data.bucketList.length === 0) { 
     return (
       <div className="min-h-screen bg-[#0e0e0e] flex items-center justify-center p-4">
         <div className="glass-card p-8 rounded-xl border-red-500/30 max-w-md w-full text-center">
@@ -160,13 +159,11 @@ const TodaysDate = new Date().toISOString().split("T")[0];
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
           {/* Left Column: Daily Archive Summary */}
-          {/* We make this sticky or fixed height to match visual balance, 
-              but since right side grows, let's keep it h-[500px] or make it auto */}
           <div className="lg:col-span-4 h-[500px] lg:h-auto">
             <DailySummary date={selectedDate} data={currentDailyData} />
           </div>
 
-          {/* Right Column: Graphs & Bucket List */}
+          {/* Right Column: Graphs, Bucket List, Rulebook */}
           <div className="lg:col-span-8 flex flex-col gap-6">
             
             {/* Study Graph */}
@@ -196,12 +193,11 @@ const TodaysDate = new Date().toISOString().split("T")[0];
               <BucketList items={data.bucketList} />
             </div>
 
-            
-{/* Rulebook / Life Lessons */}
+            {/* Rulebook / Life Lessons */}
             <div className="min-h-[200px]">
               <Rulebook categories={data.rulebook} />
             </div>
-            
+
           </div>
         </div>
       </div>
