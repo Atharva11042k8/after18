@@ -1,71 +1,105 @@
-import { useEffect, useState } from "react";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import React, { useState } from 'react';
+import { Book, ChevronDown, Activity, BookOpen, Brain, Coins, Shield, Star } from 'lucide-react';
+import { RuleCategory } from '../types';
 
-interface RuleCategory {
-  title: string;
-  rules: string[];
+interface RulebookProps {
+  categories: RuleCategory[];
 }
 
-type RuleBookData = Record<string, RuleCategory>;
+const iconMap: Record<string, React.ReactNode> = {
+  'activity': <Activity size={18} />,
+  'book-open': <BookOpen size={18} />,
+  'brain': <Brain size={18} />,
+  'coins': <Coins size={18} />,
+  'shield': <Shield size={18} />,
+  'star': <Star size={18} />,
+};
 
-const RuleBook = () => {
-  const [rulebook, setRulebook] = useState<RuleBookData | null>(null);
-  const [openKey, setOpenKey] = useState<string | null>(null);
+const Rulebook: React.FC<RulebookProps> = ({ categories }) => {
+  // Track which category index is currently open
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
-  useEffect(() => {
-    fetch("/data/rulebook.json")
-      .then(res => res.json())
-      .then(setRulebook)
-      .catch(err => console.error("Rulebook fetch error", err));
-  }, []);
-
-  if (!rulebook) {
-    return (
-      <div className="text-gray-400 p-4">
-        Loading Rulebook...
-      </div>
-    );
-  }
+  const toggleCategory = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
 
   return (
-    <div className="bg-white/5 rounded-2xl p-6 mt-4">
-      <h2 className="text-xl font-semibold text-white mb-4">
-        📘 My Rulebook
-      </h2>
+    <div className="glass-card rounded-2xl p-6 relative overflow-hidden">
+       {/* Background decoration */}
+      <div className="absolute top-0 left-0 p-40 bg-orange-500/5 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2 pointer-events-none" />
 
-      {Object.entries(rulebook).map(([key, category]) => {
-        const isOpen = openKey === key;
+      <div className="flex items-center gap-2 mb-6 relative z-10">
+        <Book className="text-orange-400" size={20} />
+        <div>
+            <h3 className="text-xl font-medium text-white">Rulebook</h3>
+            <p className="text-sm text-gray-400">Principles & Life Lessons</p>
+        </div>
+      </div>
 
-        return (
-          <div key={key} className="mb-3 bg-white/5 rounded-xl p-4">
-            <button
-              onClick={() => setOpenKey(isOpen ? null : key)}
-              className="w-full flex justify-between items-center text-left"
+      <div className="space-y-3 relative z-10">
+        {categories.map((cat, index) => {
+          const isOpen = openIndex === index;
+          
+          return (
+            <div 
+              key={index} 
+              className={`
+                rounded-xl border transition-all duration-300 overflow-hidden
+                ${isOpen 
+                  ? 'bg-white/5 border-orange-500/20 shadow-lg' 
+                  : 'bg-transparent border-white/5 hover:bg-white/5 hover:border-white/10'}
+              `}
             >
-              <span className="text-white font-medium">
-                {category.title}
-              </span>
-              {isOpen ? (
-                <ChevronDown className="text-gray-400" />
-              ) : (
-                <ChevronRight className="text-gray-400" />
-              )}
-            </button>
+              <button
+                onClick={() => toggleCategory(index)}
+                className="w-full flex items-center justify-between p-4 text-left outline-none"
+              >
+                <div className="flex items-center gap-3">
+                  <div className={`
+                    p-2 rounded-lg transition-colors duration-300
+                    ${isOpen ? 'bg-orange-500/20 text-orange-400' : 'bg-white/5 text-gray-400'}
+                  `}>
+                    {iconMap[cat.icon] || <Star size={18} />}
+                  </div>
+                  <span className={`font-medium transition-colors ${isOpen ? 'text-white' : 'text-gray-300'}`}>
+                    {cat.category}
+                  </span>
+                </div>
+                <ChevronDown 
+                  size={16} 
+                  className={`text-gray-500 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} 
+                />
+              </button>
 
-            {isOpen && (
-              <ul className="mt-3 space-y-2 text-gray-300">
-                {category.rules.map((rule, i) => (
-                  <li key={i} className="pl-3 border-l border-white/10">
-                    • {rule}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        );
-      })}
+              <div 
+                className={`
+                  transition-[max-height,opacity] duration-300 ease-in-out
+                  ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
+                `}
+              >
+                <div className="px-4 pb-4 pt-0">
+                  <ul className="space-y-2 pl-2">
+                    {cat.rules.map((rule, ruleIndex) => (
+                      <li key={ruleIndex} className="flex items-start gap-3 text-sm text-gray-300 leading-relaxed">
+                        <span className="w-1.5 h-1.5 rounded-full bg-orange-500/50 mt-1.5 shrink-0" />
+                        <span>{rule}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+
+        {categories.length === 0 && (
+            <div className="text-center py-8 text-gray-500 text-sm">
+                No rules defined yet.
+            </div>
+        )}
+      </div>
     </div>
   );
 };
 
-export default RuleBook;
+export default Rulebook;
