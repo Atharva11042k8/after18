@@ -194,6 +194,7 @@ const TodaysDate = new Date().toISOString().split("T")[0];
             {/* Things to do before death */}
             <div className="min-h-[200px]">
               <BucketList items={data.bucketList} />
+              <RuleBook />
             </div>
 
 
