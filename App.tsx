@@ -197,7 +197,13 @@ const TodaysDate = new Date().toISOString().split("T")[0];
               
             </div>
 
-<RuleBook />
+            
+ {/* Rulebook / Life Lessons */}
+            <div className="min-h-[200px]">
+              <Rulebook categories={data.rulebook} />
+            </div>
+
+
             
           </div>
         </div>
