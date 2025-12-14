@@ -1,35 +1,18 @@
 [
   {
-    "category": "Health",
-    "icon": "activity",
+    "category": "topic",
+    "icon": "lucid react icon",
     "rules": [
-      "kabhi nasha nat karna",
-      "avoid fast food"
+      "rule 1",
+      "rule 2"
     ]
   },
   {
-    "category": "Deep Work & Studies",
-    "icon": "book-open",
+    "category": "topic",
+    "icon": "lucid react icon",
     "rules": [
-      "recall each day",
-      "learn atleast 30 min a day(anything)"
-    ]
-  },
-  {
-    "category": "Mindset & Stoicism",
-    "icon": "brain",
-    "rules": [
-      "Focus on what you can control, ignore the rest.",
-      "Discipline equals freedom.",
-      "Comparison is the thief of joy."
-    ]
-  },
-  {
-    "category": "Financial",
-    "icon": "coins",
-    "rules": [
-      "Invest in yourself first.",
-      "Wait 48 hours before making any non-essential purchase over $50."
+      "rule 1",
+      "rule 2"
     ]
   }
 ]
