@@ -1,20 +1,18 @@
 [
   {
-    "category": "Health & Vitality",
+    "category": "Health",
     "icon": "activity",
     "rules": [
-      "Sleep is the foundation. 7.5 hours minimum.",
-      "Hydrate before caffeinate.",
-      "Move the body daily. Stagnation leads to decline."
+      "kabhi nasha nat karna",
+      "avoid fast food"
     ]
   },
   {
     "category": "Deep Work & Studies",
     "icon": "book-open",
     "rules": [
-      "Focus is a muscle. Protect it from distraction.",
-      "Active recall over passive re-reading.",
-      "If you can't explain it simply, you don't understand it well enough."
+      "recall each day",
+      "learn atleast 30 min a day(anything)"
     ]
   },
   {
