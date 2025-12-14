@@ -29,7 +29,7 @@ const DailySummary: React.FC<DailySummaryProps> = ({ date, data }) => {
          return (
              <div key={i} className="flex gap-2 ml-1 mb-1 text-gray-300">
                  <span className="text-emerald-500">•</span>
-                 <span>{line.replace('- ', '').replace('[x]', '✅').replace('[ ]', '⬜')}</span>
+                 <span>{line.replace('- ', '').replace('[x]', '✅').replace('[ ]', '❌')}</span>
              </div>
          );
       }
